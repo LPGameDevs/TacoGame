@@ -18,8 +18,6 @@ namespace TacosLibrary
             Input();
             Process();
             Response();
-            Console.WriteLine("Enter to continue:");
-            Console.ReadLine();
         }
     }
 }

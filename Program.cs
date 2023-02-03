@@ -42,7 +42,7 @@ namespace TacosGame
                 {
                     Console.WriteLine("Do you want to play again? (y/n)");
                     string answer = Console.ReadLine();
-                    if (answer.Substring(0,1).ToLower() != "y")
+                    if (answer.Length == 0 || answer.Substring(0,1).ToLower() != "y")
                     {
                         playAgain = false;
                     }    

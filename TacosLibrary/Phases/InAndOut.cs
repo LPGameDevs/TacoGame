@@ -11,7 +11,7 @@ namespace TacosLibrary
         {
             Console.WriteLine("Choose a card from 1-6 to swap with the current modifier");
             var input = Console.ReadLine();
-            bool isNumber = int.TryParse(input, out int _card);
+            bool isNumber = int.TryParse(input, out _card);
 
             if (!isNumber)
             {
