@@ -7,30 +7,53 @@ namespace TacosGame
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Welcome to the Tacos Game!");
+
             Game game = new Game();
             
-            Console.WriteLine("Welcome to the Tacos Game!");
-            Console.WriteLine("Enter your name:");
-            string name = Console.ReadLine();
+            // Setup
+            SetupGame(game);
             
-            game.AddPlayer(name);
+            // Play
+            PlayGame(game);
+
+            // End
+            EndGame(game);
+        }
+
+        private static void SetupGame(Game game)
+        {
             
-            Console.WriteLine("Hello " + game.GetPlayerName() + ", let's start the game.");
+        }
+
+        private static void PlayGame(Game game)
+        {
+            // Phase 1: In and Out
+            // Phase 2: Round and Round
+            // Phase 3: Orders Ready
+            // Phase 4: Off we go!
             
             bool playAgain = true;
             while (playAgain)
             {
-                Console.WriteLine("Enter a number:");
-                string input = Console.ReadLine();
-                string result = Numbers.IsNumberEven(input);
-                Console.WriteLine(input + " is " + result + ".");
-                
-                Console.WriteLine("Do you want to play again? (yes/no)");
-                string answer = Console.ReadLine();
-                playAgain = (answer == "yes");
+                IPhase phase = game.GetNextPhase();
+                phase.Play();
+
+                if (game.TurnIsOver)
+                {
+                    Console.WriteLine("Do you want to play again? (y/n)");
+                    string answer = Console.ReadLine();
+                    if (answer == "n")
+                    {
+                        playAgain = false;
+                    }    
+                }
             }
-            
-            Console.WriteLine("Thank you for playing the Text-Based Game!");
+        }
+
+        private static void EndGame(Game game)
+        {
+            Console.WriteLine("Thank you for playing the Taco Game!");
         }
     }
 }

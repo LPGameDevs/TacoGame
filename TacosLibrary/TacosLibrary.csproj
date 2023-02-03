@@ -41,6 +41,12 @@
         <Compile Include="Game.cs" />
         <Compile Include="MapCard.cs" />
         <Compile Include="Numbers.cs" />
+        <Compile Include="Phases\BasePhase.cs" />
+        <Compile Include="Phases\Go.cs" />
+        <Compile Include="Phases\InAndOut.cs" />
+        <Compile Include="Phases\IPhase.cs" />
+        <Compile Include="Phases\OrdersReady.cs" />
+        <Compile Include="Phases\RoundAndRound.cs" />
         <Compile Include="Player.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
