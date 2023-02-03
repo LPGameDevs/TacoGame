@@ -36,19 +36,17 @@ namespace Tests
         [Test]
         public void TestPlaceMap()
         {
-            Game game = new Game();
-            game.PlaceMap();
-            Assert.AreEqual(4, game.GetMap().Length);
+            Game.Instance.PlaceMap();
+            Assert.AreEqual(4, Game.Instance.GetMap().Length);
         }
         
         [Test]
         public void GetPlayerName_PlayerAdded_ReturnsPlayerName()
         {
-            Game game = new Game();
             string playerName = "John";
-            game.AddPlayer(playerName);
+            Game.Instance.AddPlayer(playerName);
             
-            string result = game.GetPlayerName();
+            string result = Game.Instance.GetPlayerName();
             
             Assert.AreEqual(playerName, result);
         }

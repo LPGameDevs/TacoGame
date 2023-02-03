@@ -1,15 +1,35 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 
 namespace TacosLibrary
 {
     public class Game
     {
+        private static Game _instance;
+
+        private Game()
+        {
+        }
+
+        public static Game Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new Game();
+                }
+
+                return _instance;
+            }
+        }
+
         private List<MapCard> _mapCards = new List<MapCard>();
         private List<Player> _players = new List<Player>();
         private int _mapSize = 4;
 
+        private string _modifier;
+        
         private Queue<IPhase> _phases = new Queue<IPhase>();
         public bool TurnIsOver => _phases.Count == 0;
 
@@ -27,11 +47,13 @@ namespace TacosLibrary
         public void PlaceMap()
         {
             _mapCards = new List<MapCard>();
-            
+
             for (int i = 0; i < _mapSize; i++)
             {
                 _mapCards.Add(new MapCard());
             }
+            
+            _modifier = "Flat Tire";
         }
 
         public MapCard[] GetMap()
@@ -45,10 +67,9 @@ namespace TacosLibrary
             {
                 return _phases.Dequeue();
             }
-            
+
             StartNewTurn();
             return GetNextPhase();
-
         }
 
         private void StartNewTurn()
@@ -58,6 +79,11 @@ namespace TacosLibrary
             _phases.Enqueue(new RoundAndRound());
             _phases.Enqueue(new OrdersReady());
             _phases.Enqueue(new Go());
+        }
+
+        public string GetModifier()
+        {
+            return _modifier;
         }
     }
 }

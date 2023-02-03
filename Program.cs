@@ -7,26 +7,25 @@ namespace TacosGame
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Welcome to the Tacos Game!");
-
-            Game game = new Game();
             
             // Setup
-            SetupGame(game);
+            SetupGame();
             
             // Play
-            PlayGame(game);
+            PlayGame();
 
             // End
-            EndGame(game);
+            EndGame();
         }
 
-        private static void SetupGame(Game game)
+        private static void SetupGame()
         {
-            
+            Console.WriteLine("Welcome to the Tacos Game!");
+            Game.Instance.PlaceMap();
+
         }
 
-        private static void PlayGame(Game game)
+        private static void PlayGame()
         {
             // Phase 1: In and Out
             // Phase 2: Round and Round
@@ -36,14 +35,14 @@ namespace TacosGame
             bool playAgain = true;
             while (playAgain)
             {
-                IPhase phase = game.GetNextPhase();
+                IPhase phase = Game.Instance.GetNextPhase();
                 phase.Play();
 
-                if (game.TurnIsOver)
+                if (Game.Instance.TurnIsOver)
                 {
                     Console.WriteLine("Do you want to play again? (y/n)");
                     string answer = Console.ReadLine();
-                    if (answer == "n")
+                    if (answer.Substring(0,1).ToLower() != "y")
                     {
                         playAgain = false;
                     }    
@@ -51,7 +50,7 @@ namespace TacosGame
             }
         }
 
-        private static void EndGame(Game game)
+        private static void EndGame()
         {
             Console.WriteLine("Thank you for playing the Taco Game!");
         }
