@@ -11,35 +11,11 @@ namespace TacosLibrary
 
         private List<int> _dice = new List<int>();
         private List<IClearing> _paths = new List<IClearing>();
-        private int _riders = 0;
+        private List<Rider> _riders = new List<Rider>();
 
         public int GetScore()
         {
             return _score;
-        }
-        
-        public void AddScore(int score)
-        {
-            foreach (int die in _dice)
-            {
-                // All paths must pass to score.
-                bool failed = false;
-                foreach (var path in _paths)
-                {
-                    if (path.CanPass(die) == false)
-                    {
-                        path.OnFail();
-                        failed = true;
-                    }
-                }
-
-                if (failed)
-                {
-                    continue;
-                }
-                
-                _score += score;
-            }
         }
 
         public void EndGame()
@@ -49,7 +25,16 @@ namespace TacosLibrary
 
         public void AddDiceRoll(int outcome)
         {
-            _dice.Add(outcome);
+            foreach (Rider rider in _riders)
+            {
+                if (rider.HasValue)
+                {
+                    continue;
+                }
+
+                rider.SetValue(outcome);
+                return;
+            }
         }
 
         public void AddPath(IClearing clearing)
@@ -59,17 +44,78 @@ namespace TacosLibrary
 
         public int GetRiders()
         {
-            return _riders;
+            return _riders.Count;
         }
 
-        public void AddRider()
+        public void AddRider(Rider.FoodName food)
         {
-            _riders++;
+            _riders.Add(new Rider(food));
         }
 
-        public void RemoveRider()
+        public void RemoveRider(Rider rider)
         {
-            _riders = Math.Max(0, _riders - 1);
+            if (_riders.Contains(rider))
+            {
+                _riders.Remove(rider);
+            }
+        }
+
+        public void SendRiders()
+        {
+            foreach (var rider in _riders.ToArray())
+            {
+                // All paths must pass to score.
+                bool failed = false;
+                foreach (var path in _paths)
+                {
+                    if (path.CanPass(rider.Value) == false)
+                    {
+                        path.OnFail(rider);
+                        failed = true;
+                    }
+                }
+
+                if (failed)
+                {
+                    continue;
+                }
+
+                rider.Delivered = true;
+            }
+        }
+
+        public void CalculateScore()
+        {
+            int tacos = 0;
+            int veggies = 0;
+
+            foreach (Rider rider in _riders)
+            {
+                if (!rider.Delivered)
+                {
+                    continue;
+                }
+                
+                switch (rider.Food)
+                {
+                    case Rider.FoodName.Tacos:
+                        tacos++;
+                        break;
+                    case Rider.FoodName.Veggie:
+                        veggies++;
+                        break;
+                }
+
+                if (tacos > 0)
+                {
+                    _score = tacos * 3;
+                }
+                else
+                {
+                    _score = veggies * 1;
+                }
+                
+            }
         }
     }
 }

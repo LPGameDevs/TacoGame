@@ -6,10 +6,10 @@ namespace TacosLibrary.Clearings
         {
         }
 
-        public override void OnFail()
+        public override void OnFail(Rider rider)
         {
             // Kill the rider.
-            GameManager.Instance.RemoveRider();
+            GameManager.Instance.RemoveRider(rider);
         }
     }
 }

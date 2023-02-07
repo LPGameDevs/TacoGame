@@ -14,7 +14,7 @@ namespace TacosLibrary.Clearings
             return diceRoll > _passValue;
         }
 
-        public virtual void OnFail()
+        public virtual void OnFail(Rider rider)
         {
             // Drop the food.
         }

@@ -12,24 +12,24 @@ namespace Tests
         {
             string input = "2";
             string expectedResult = "even";
-            
+
             string result = Numbers.IsNumberEven(input);
-            
+
             Assert.AreEqual(expectedResult, result);
         }
-        
+
         [Test]
         public void IsNumberEven_InputIsOdd_ReturnsOdd()
         {
             string input = "1";
             string expectedResult = "odd";
-            
+
             string result = Numbers.IsNumberEven(input);
-            
+
             Assert.AreEqual(expectedResult, result);
         }
     }
-    
+
     [TestFixture]
     public class GameTests
     {
@@ -41,13 +41,14 @@ namespace Tests
 
             Assert.AreEqual(0, startingScore);
 
+            GameManager.Instance.AddRider();
             GameManager.Instance.RollDice(3);
             GameManager.Instance.PlayGame();
             int finalScore = GameManager.Instance.GetScore();
 
             Assert.AreEqual(3, finalScore);
         }
-        
+
         [Test]
         public void TestGameOver()
         {
@@ -74,12 +75,15 @@ namespace Tests
         {
             GameManager.Instance.StartGame();
             GameManager.Instance.AddPath(path);
+
+            GameManager.Instance.AddRider();
             GameManager.Instance.RollDice(dice);
+
             GameManager.Instance.PlayGame();
-            
+
             Assert.AreEqual(score, GameManager.Instance.GetScore());
         }
-        
+
         [TestCase(6, 2, 4, 0)]
         [TestCase(4, 2, 5, 3)]
         [TestCase(2, 3, 4, 6)]
@@ -87,32 +91,40 @@ namespace Tests
         {
             GameManager.Instance.StartGame();
             GameManager.Instance.AddPath(path);
+
+            GameManager.Instance.AddRider();
+            GameManager.Instance.AddRider();
             GameManager.Instance.RollDice(dice1);
             GameManager.Instance.RollDice(dice2);
+
             GameManager.Instance.PlayGame();
-            
+
             Assert.AreEqual(score, GameManager.Instance.GetScore());
         }
 
-        [TestCase(6,4, 2, 3, 0)]
-        [TestCase(6,4, 2, 5, 0)]
-        [TestCase(4,5, 2, 6, 3)]
-        [TestCase(3,5, 4, 6, 3)]
-        [TestCase(5,3, 6, 6, 6)]
-        [TestCase(2,3, 1, 3, 0)]
-        [TestCase(2,3, 1, 4, 3)]
+        [TestCase(6, 4, 2, 3, 0)]
+        [TestCase(6, 4, 2, 5, 0)]
+        [TestCase(4, 5, 2, 6, 3)]
+        [TestCase(3, 5, 4, 6, 3)]
+        [TestCase(5, 3, 6, 6, 6)]
+        [TestCase(2, 3, 1, 3, 0)]
+        [TestCase(2, 3, 1, 4, 3)]
         public void TestMultiplePaths(int path1, int path2, int dice1, int dice2, int score)
         {
             GameManager.Instance.StartGame();
             GameManager.Instance.AddPath(path1);
             GameManager.Instance.AddPath(path2);
+
+            GameManager.Instance.AddRider();
+            GameManager.Instance.AddRider();
             GameManager.Instance.RollDice(dice1);
             GameManager.Instance.RollDice(dice2);
+
             GameManager.Instance.PlayGame();
-            
+
             Assert.AreEqual(score, GameManager.Instance.GetScore());
         }
-        
+
         [Test]
         public void TestPlaceMap()
         {
@@ -125,9 +137,9 @@ namespace Tests
         {
             string playerName = "John";
             GameManager.Instance.AddPlayer(playerName);
-            
+
             string result = GameManager.Instance.GetPlayerName();
-            
+
             Assert.AreEqual(playerName, result);
         }
     }
@@ -141,11 +153,11 @@ namespace Tests
             Assert.AreEqual(0, GameManager.Instance.GetRiders());
 
             GameManager.Instance.StartGame();
-            
+
             Assert.AreEqual(0, GameManager.Instance.GetRiders());
-            
+
             GameManager.Instance.AddRider();
-            
+
             Assert.AreEqual(1, GameManager.Instance.GetRiders());
 
             GameManager.Instance.PlayGame();
@@ -155,9 +167,131 @@ namespace Tests
     }
 
     [TestFixture]
+    public class FoodTests
+    {
+        [Test]
+        public void TestOneTaco()
+        {
+            GameManager.Instance.StartGame();
+            GameManager.Instance.AddRider();
+            GameManager.Instance.RollDice(1);
+            GameManager.Instance.PlayGame();
+
+            Assert.AreEqual(3, GameManager.Instance.GetScore());
+        }
+
+        [Test]
+        public void TestOneVeggie()
+        {
+            GameManager.Instance.StartGame();
+            GameManager.Instance.AddRider(Rider.FoodName.Veggie);
+            GameManager.Instance.RollDice(1);
+            GameManager.Instance.PlayGame();
+
+            Assert.AreEqual(1, GameManager.Instance.GetScore());
+        }
+
+        [Test]
+        public void TestTwoVeggie()
+        {
+            GameManager.Instance.StartGame();
+
+            GameManager.Instance.AddRider(Rider.FoodName.Veggie);
+            GameManager.Instance.AddRider(Rider.FoodName.Veggie);
+            GameManager.Instance.RollDice(1);
+            GameManager.Instance.RollDice(1);
+
+            GameManager.Instance.PlayGame();
+
+            Assert.AreEqual(2, GameManager.Instance.GetScore());
+        }
+
+        [Test]
+        public void TestTwoTacos()
+        {
+            GameManager.Instance.StartGame();
+
+            GameManager.Instance.AddRider(Rider.FoodName.Tacos);
+            GameManager.Instance.AddRider(Rider.FoodName.Tacos);
+            GameManager.Instance.RollDice(1);
+            GameManager.Instance.RollDice(1);
+
+            GameManager.Instance.PlayGame();
+
+            Assert.AreEqual(6, GameManager.Instance.GetScore());
+        }
+
+        [Test]
+        public void TestTwoMixed()
+        {
+            GameManager.Instance.StartGame();
+
+            GameManager.Instance.AddRider(Rider.FoodName.Veggie);
+            GameManager.Instance.AddRider(Rider.FoodName.Tacos);
+            GameManager.Instance.RollDice(1);
+            GameManager.Instance.RollDice(1);
+            GameManager.Instance.PlayGame();
+
+            Assert.AreEqual(3, GameManager.Instance.GetScore());
+        }
+
+        [Test]
+        public void TestThreeMixedOneTaco()
+        {
+            GameManager.Instance.StartGame();
+
+            GameManager.Instance.AddRider(Rider.FoodName.Tacos);
+            GameManager.Instance.AddRider(Rider.FoodName.Veggie);
+            GameManager.Instance.AddRider(Rider.FoodName.Veggie);
+            GameManager.Instance.RollDice(1);
+            GameManager.Instance.RollDice(1);
+            GameManager.Instance.RollDice(1);
+
+            GameManager.Instance.PlayGame();
+
+            Assert.AreEqual(3, GameManager.Instance.GetScore());
+        }
+
+        [Test]
+        public void TestThreeMixedTwoTacos()
+        {
+            GameManager.Instance.StartGame();
+
+            GameManager.Instance.AddRider(Rider.FoodName.Tacos);
+            GameManager.Instance.AddRider(Rider.FoodName.Veggie);
+            GameManager.Instance.AddRider(Rider.FoodName.Tacos);
+            GameManager.Instance.RollDice(1);
+            GameManager.Instance.RollDice(1);
+            GameManager.Instance.RollDice(1);
+
+            GameManager.Instance.PlayGame();
+
+            Assert.AreEqual(6, GameManager.Instance.GetScore());
+        }
+
+        [Test]
+        public void TestFourMixed()
+        {
+            GameManager.Instance.StartGame();
+
+            GameManager.Instance.AddRider(Rider.FoodName.Tacos);
+            GameManager.Instance.AddRider(Rider.FoodName.Veggie);
+            GameManager.Instance.AddRider(Rider.FoodName.Veggie);
+            GameManager.Instance.AddRider(Rider.FoodName.Tacos);
+            GameManager.Instance.RollDice(1);
+            GameManager.Instance.RollDice(1);
+            GameManager.Instance.RollDice(1);
+            GameManager.Instance.RollDice(1);
+
+            GameManager.Instance.PlayGame();
+
+            Assert.AreEqual(6, GameManager.Instance.GetScore());
+        }
+    }
+
+    [TestFixture]
     public class PathTests
     {
-        
         [TestCase(3, 4, 1)]
         [TestCase(3, 3, 0)]
         [TestCase(3, 2, 0)]
@@ -165,12 +299,14 @@ namespace Tests
         {
             GameManager.Instance.StartGame();
             GameManager.Instance.AddRider();
+
+            Assert.AreEqual(1, GameManager.Instance.GetRiders());
+
             GameManager.Instance.AddPath(new WyrmClearing(wyrmValue));
             GameManager.Instance.RollDice(dice);
             GameManager.Instance.PlayGame();
-            
+
             Assert.AreEqual(riders, GameManager.Instance.GetRiders());
         }
-
     }
 }

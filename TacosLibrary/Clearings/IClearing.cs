@@ -5,6 +5,6 @@ namespace TacosLibrary.Clearings
 
         bool CanPass(int diceRoll);
 
-        void OnFail();
+        void OnFail(Rider rider);
     }
 }

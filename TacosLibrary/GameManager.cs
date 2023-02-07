@@ -65,11 +65,6 @@ namespace TacosLibrary
         {
             return _game.GetScore();
         }
-        
-        public void AddScore(int score)
-        {
-            _game.AddScore(score);
-        }
 
         public void AddPath(int minimumDiceRoll)
         {
@@ -81,14 +76,14 @@ namespace TacosLibrary
             _game.AddPath(path);
         }
 
-        public void AddRider()
+        public void AddRider(Rider.FoodName food = Rider.FoodName.Tacos)
         {
-            _game.AddRider();
+            _game.AddRider(food);
         }
         
-        public void RemoveRider()
+        public void RemoveRider(Rider rider)
         {
-            _game.RemoveRider();
+            _game.RemoveRider(rider);
         }
         
         public int GetRiders()
@@ -112,7 +107,8 @@ namespace TacosLibrary
 
         public void PlayGame()
         {
-            AddScore(3);
+            _game.SendRiders();
+            _game.CalculateScore();
             _game.EndGame();
         }
 
