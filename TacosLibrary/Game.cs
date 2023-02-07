@@ -8,7 +8,7 @@ namespace TacosLibrary
         public bool IsGameOver = false;
 
         private List<int> _dice = new List<int>();
-        private int _path;
+        private List<int> _paths = new List<int>();
         
         public int GetScore()
         {
@@ -19,11 +19,21 @@ namespace TacosLibrary
         {
             foreach (int die in _dice)
             {
-                if (_path > 0 && die <= _path)
+                // All paths must pass to score.
+                bool failed = false;
+                foreach (int path in _paths)
+                {
+                    if (path > 0 && die <= path)
+                    {
+                        failed = true;
+                    }
+                }
+
+                if (failed)
                 {
                     continue;
-
                 }
+                
                 _score += score;
             }
         }
@@ -40,7 +50,7 @@ namespace TacosLibrary
 
         public void AddPath(int minimumDiceRoll)
         {
-            _path = minimumDiceRoll;
+            _paths.Add(minimumDiceRoll);
         }
     }
 }

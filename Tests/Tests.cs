@@ -93,15 +93,20 @@ namespace Tests
             Assert.AreEqual(score, GameManager.Instance.GetScore());
         }
 
-        [TestCase(6, 2, 0)]
-        public void TestMultiplePaths(int path, int dice, int score)
+        [TestCase(6,4, 2, 3, 0)]
+        [TestCase(6,4, 2, 5, 0)]
+        [TestCase(4,5, 2, 6, 3)]
+        [TestCase(3,5, 4, 6, 3)]
+        [TestCase(5,3, 6, 6, 6)]
+        [TestCase(2,3, 1, 3, 0)]
+        [TestCase(2,3, 1, 4, 3)]
+        public void TestMultiplePaths(int path1, int path2, int dice1, int dice2, int score)
         {
-            return;
-            // Test rolling 4 or higher to win.
-            
             GameManager.Instance.StartGame();
-            GameManager.Instance.AddPath(path);
-            GameManager.Instance.RollDice(dice);
+            GameManager.Instance.AddPath(path1);
+            GameManager.Instance.AddPath(path2);
+            GameManager.Instance.RollDice(dice1);
+            GameManager.Instance.RollDice(dice2);
             GameManager.Instance.PlayGame();
             
             Assert.AreEqual(score, GameManager.Instance.GetScore());
