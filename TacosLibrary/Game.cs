@@ -1,89 +1,46 @@
 using System.Collections.Generic;
-using System.Linq;
 
 namespace TacosLibrary
 {
     public class Game
     {
-        private static Game _instance;
+        private int _score = 0;
+        public bool IsGameOver = false;
 
-        private Game()
-        {
-        }
-
-        public static Game Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new Game();
-                }
-
-                return _instance;
-            }
-        }
-
-        private List<MapCard> _mapCards = new List<MapCard>();
-        private List<Player> _players = new List<Player>();
-        private int _mapSize = 4;
-
-        private string _modifier;
+        private List<int> _dice = new List<int>();
+        private int _path;
         
-        private Queue<IPhase> _phases = new Queue<IPhase>();
-        public bool TurnIsOver => _phases.Count == 0;
-
-
-        public void AddPlayer(string playerName)
+        public int GetScore()
         {
-            _players.Add(new Player(playerName));
+            return _score;
         }
-
-        public string GetPlayerName()
+        
+        public void AddScore(int score)
         {
-            return _players.First().Name;
-        }
-
-        public void PlaceMap()
-        {
-            _mapCards = new List<MapCard>();
-
-            for (int i = 0; i < _mapSize; i++)
+            foreach (int die in _dice)
             {
-                _mapCards.Add(new MapCard());
+                if (_path > 0 && die <= _path)
+                {
+                    continue;
+
+                }
+                _score += score;
             }
-            
-            _modifier = "Flat Tire";
         }
 
-        public MapCard[] GetMap()
+        public void EndGame()
         {
-            return _mapCards.ToArray();
+            IsGameOver = true;
         }
 
-        public IPhase GetNextPhase()
+        public void AddDiceRoll(int outcome)
         {
-            if (_phases.Count > 0)
-            {
-                return _phases.Dequeue();
-            }
-
-            StartNewTurn();
-            return GetNextPhase();
+            _dice.Add(outcome);
         }
 
-        private void StartNewTurn()
+        public void AddPath(int minimumDiceRoll)
         {
-            _phases = new Queue<IPhase>();
-            _phases.Enqueue(new InAndOut());
-            _phases.Enqueue(new RoundAndRound());
-            _phases.Enqueue(new OrdersReady());
-            _phases.Enqueue(new Go());
-        }
-
-        public string GetModifier()
-        {
-            return _modifier;
+            _path = minimumDiceRoll;
         }
     }
 }

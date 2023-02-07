@@ -38,7 +38,7 @@ namespace TacosLibrary
         public override void Response()
         {
             // Display the new modifier.
-            Console.WriteLine("The new modifier is: " + Game.Instance.GetModifier());
+            Console.WriteLine("The new modifier is: " + GameManager.Instance.GetModifier());
         }
     }
 }

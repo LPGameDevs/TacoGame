@@ -21,7 +21,7 @@ namespace TacosGame
         private static void SetupGame()
         {
             Console.WriteLine("Welcome to the Tacos Game!");
-            Game.Instance.PlaceMap();
+            GameManager.Instance.PlaceMap();
 
         }
 
@@ -35,10 +35,10 @@ namespace TacosGame
             bool playAgain = true;
             while (playAgain)
             {
-                IPhase phase = Game.Instance.GetNextPhase();
+                IPhase phase = GameManager.Instance.GetNextPhase();
                 phase.Play();
 
-                if (Game.Instance.TurnIsOver)
+                if (GameManager.Instance.TurnIsOver)
                 {
                     Console.WriteLine("Do you want to play again? (y/n)");
                     string answer = Console.ReadLine();

@@ -15,6 +15,9 @@ namespace TacosLibrary
             while (_riders.Count > 0)
             {
                 Rider rider = _riders[0];
+                
+                
+                
                 _riders.RemoveAt(0);
             }
         }

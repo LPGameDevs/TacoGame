@@ -38,7 +38,11 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="Clearings\FailClearing.cs" />
+        <Compile Include="Clearings\IClearing.cs" />
+        <Compile Include="Clearings\PassClearing.cs" />
         <Compile Include="Game.cs" />
+        <Compile Include="GameManager.cs" />
         <Compile Include="MapCard.cs" />
         <Compile Include="Meals.cs" />
         <Compile Include="Numbers.cs" />
