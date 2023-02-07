@@ -1,8 +1,8 @@
 namespace TacosLibrary.Clearings
 {
-    public class FailClearing : IClearing
+    public class WyrmClearing : IClearing
     {
-        public bool CanPass()
+        public bool CanPass(int diceRoll)
         {
             return false;
         }

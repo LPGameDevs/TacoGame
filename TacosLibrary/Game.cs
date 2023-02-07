@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TacosLibrary.Clearings;
 
 namespace TacosLibrary
 {
@@ -8,8 +9,9 @@ namespace TacosLibrary
         public bool IsGameOver = false;
 
         private List<int> _dice = new List<int>();
-        private List<int> _paths = new List<int>();
-        
+        private List<IClearing> _paths = new List<IClearing>();
+        private int _riders;
+
         public int GetScore()
         {
             return _score;
@@ -21,9 +23,9 @@ namespace TacosLibrary
             {
                 // All paths must pass to score.
                 bool failed = false;
-                foreach (int path in _paths)
+                foreach (var path in _paths)
                 {
-                    if (path > 0 && die <= path)
+                    if (path.CanPass(die) == false)
                     {
                         failed = true;
                     }
@@ -48,9 +50,19 @@ namespace TacosLibrary
             _dice.Add(outcome);
         }
 
-        public void AddPath(int minimumDiceRoll)
+        public void AddPath(IClearing clearing)
         {
-            _paths.Add(minimumDiceRoll);
+            _paths.Add(clearing);
+        }
+
+        public int GetRiders()
+        {
+            return _riders;
+        }
+
+        public void AddRider()
+        {
+            _riders++;
         }
     }
 }

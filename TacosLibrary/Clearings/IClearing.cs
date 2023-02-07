@@ -1,9 +1,9 @@
 namespace TacosLibrary.Clearings
 {
-    interface IClearing
+    public interface IClearing
     {
 
-        bool CanPass();
+        bool CanPass(int diceRoll);
 
     }
 }

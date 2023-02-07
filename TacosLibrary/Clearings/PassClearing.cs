@@ -2,9 +2,16 @@ namespace TacosLibrary.Clearings
 {
     public class PassClearing : IClearing
     {
-        public bool CanPass()
+        private int _passValue;
+        
+        public PassClearing(int passValue)
         {
-            return true;
+            _passValue = passValue;
+        }
+
+        public bool CanPass(int diceRoll)
+        {
+            return diceRoll > _passValue;
         }
     }
 }

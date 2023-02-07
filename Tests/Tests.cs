@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using TacosLibrary;
+using TacosLibrary.Clearings;
 
 namespace Tests
 {
@@ -129,5 +130,45 @@ namespace Tests
             
             Assert.AreEqual(playerName, result);
         }
+    }
+
+    [TestFixture]
+    public class RiderTests
+    {
+        [Test]
+        public void TestRiders()
+        {
+            Assert.AreEqual(0, GameManager.Instance.GetRiders());
+
+            GameManager.Instance.StartGame();
+            
+            Assert.AreEqual(0, GameManager.Instance.GetRiders());
+            
+            GameManager.Instance.AddRider();
+            
+            Assert.AreEqual(1, GameManager.Instance.GetRiders());
+
+            GameManager.Instance.PlayGame();
+
+            Assert.AreEqual(1, GameManager.Instance.GetRiders());
+        }
+    }
+
+    [TestFixture]
+    public class PathTests
+    {
+        
+        [TestCase(3, 4, 3)]
+        public void TestWyrmPath(int wyrmValue, int dice, int riders)
+        {
+            
+            GameManager.Instance.StartGame();
+            GameManager.Instance.AddPath(new WyrmClearing());
+            GameManager.Instance.RollDice(dice);
+            GameManager.Instance.PlayGame();
+            
+            // Assert.AreEqual(score, GameManager.Instance.GetScore());
+        }
+
     }
 }

@@ -71,9 +71,34 @@ namespace TacosLibrary
             _game.AddScore(score);
         }
 
+        public void AddPath(int minimumDiceRoll)
+        {
+            _game.AddPath(new PassClearing(minimumDiceRoll));
+        }
+        
+        public void AddPath(IClearing path)
+        {
+            _game.AddPath(path);
+        }
+
+        public void AddRider()
+        {
+            _game.AddRider();
+        }
+        
+        public int GetRiders()
+        {
+            return _game.GetRiders();
+        }
+
         #endregion
 
         #region Management
+
+        public void RollDice(int outcome)
+        {
+            _game.AddDiceRoll(outcome);
+        }
 
         public void PlayGame()
         {
@@ -120,16 +145,16 @@ namespace TacosLibrary
             
             _modifier = "Flat Tire";
 
-            for (int i = 0; i < 4; i++)
-            {
-                IClearing[] path = {
-                    new PassClearing(),
-                    new PassClearing(),
-                    new PassClearing(),
-                    new PassClearing(),
-                };
-                _paths.Add(path);
-            }
+            // for (int i = 0; i < 4; i++)
+            // {
+            //     IClearing[] path = {
+            //         new PassClearing(),
+            //         new PassClearing(),
+            //         new PassClearing(),
+            //         new PassClearing(),
+            //     };
+            //     _paths.Add(path);
+            // }
         }
 
         public MapCard[] GetMap()
@@ -160,16 +185,6 @@ namespace TacosLibrary
         public string GetModifier()
         {
             return _modifier;
-        }
-
-        public void RollDice(int outcome)
-        {
-            _game.AddDiceRoll(outcome);
-        }
-
-        public void AddPath(int minimumDiceRoll)
-        {
-            _game.AddPath(minimumDiceRoll);
         }
     }
 }
