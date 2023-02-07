@@ -9,7 +9,6 @@ namespace TacosLibrary
         private int _score = 0;
         public bool IsGameOver = false;
 
-        private List<int> _dice = new List<int>();
         private List<IClearing> _paths = new List<IClearing>();
         private List<Rider> _riders = new List<Rider>();
 
@@ -95,7 +94,7 @@ namespace TacosLibrary
                 {
                     continue;
                 }
-                
+
                 switch (rider.Food)
                 {
                     case Rider.FoodName.Tacos:
@@ -114,7 +113,6 @@ namespace TacosLibrary
                 {
                     _score = veggies * 1;
                 }
-                
             }
         }
     }

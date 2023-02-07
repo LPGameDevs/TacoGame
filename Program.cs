@@ -1,5 +1,6 @@
 ﻿using System;
 using TacosLibrary;
+using TacosLibrary.Clearings;
 
 namespace TacosGame
 {
@@ -21,8 +22,16 @@ namespace TacosGame
         private static void SetupGame()
         {
             Console.WriteLine("Welcome to the Tacos Game!");
-            GameManager.Instance.PlaceMap();
+            GameManager.Instance.StartGame();
+            
+            // Add the first clearing
+            Random random = new Random();
 
+            IClearing firstClearing = random.Next(0, 1) == 0 ? new PassClearing(3) : new WyrmClearing(3);
+            GameManager.Instance.AddPath(firstClearing);
+
+            IClearing secondClearing = random.Next(0, 1) == 0 ? new PassClearing(3) : new WyrmClearing(3);
+            GameManager.Instance.AddPath(secondClearing);
         }
 
         private static void PlayGame()

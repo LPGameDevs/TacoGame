@@ -182,8 +182,8 @@ namespace TacosLibrary
         private void StartNewTurn()
         {
             _phases = new Queue<IPhase>();
-            _phases.Enqueue(new InAndOut());
-            _phases.Enqueue(new RoundAndRound());
+            // _phases.Enqueue(new InAndOut());
+            // _phases.Enqueue(new RoundAndRound());
             _phases.Enqueue(new OrdersReady());
             _phases.Enqueue(new Go());
         }
