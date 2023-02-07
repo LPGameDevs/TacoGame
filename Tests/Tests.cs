@@ -158,16 +158,18 @@ namespace Tests
     public class PathTests
     {
         
-        [TestCase(3, 4, 3)]
+        [TestCase(3, 4, 1)]
+        [TestCase(3, 3, 0)]
+        [TestCase(3, 2, 0)]
         public void TestWyrmPath(int wyrmValue, int dice, int riders)
         {
-            
             GameManager.Instance.StartGame();
-            GameManager.Instance.AddPath(new WyrmClearing());
+            GameManager.Instance.AddRider();
+            GameManager.Instance.AddPath(new WyrmClearing(wyrmValue));
             GameManager.Instance.RollDice(dice);
             GameManager.Instance.PlayGame();
             
-            // Assert.AreEqual(score, GameManager.Instance.GetScore());
+            Assert.AreEqual(riders, GameManager.Instance.GetRiders());
         }
 
     }

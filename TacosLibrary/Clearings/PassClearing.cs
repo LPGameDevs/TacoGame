@@ -2,7 +2,7 @@ namespace TacosLibrary.Clearings
 {
     public class PassClearing : IClearing
     {
-        private int _passValue;
+        protected int _passValue;
         
         public PassClearing(int passValue)
         {
@@ -12,6 +12,11 @@ namespace TacosLibrary.Clearings
         public bool CanPass(int diceRoll)
         {
             return diceRoll > _passValue;
+        }
+
+        public virtual void OnFail()
+        {
+            // Drop the food.
         }
     }
 }

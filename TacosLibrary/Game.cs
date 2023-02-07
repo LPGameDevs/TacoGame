@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TacosLibrary.Clearings;
 
@@ -10,7 +11,7 @@ namespace TacosLibrary
 
         private List<int> _dice = new List<int>();
         private List<IClearing> _paths = new List<IClearing>();
-        private int _riders;
+        private int _riders = 0;
 
         public int GetScore()
         {
@@ -27,6 +28,7 @@ namespace TacosLibrary
                 {
                     if (path.CanPass(die) == false)
                     {
+                        path.OnFail();
                         failed = true;
                     }
                 }
@@ -63,6 +65,11 @@ namespace TacosLibrary
         public void AddRider()
         {
             _riders++;
+        }
+
+        public void RemoveRider()
+        {
+            _riders = Math.Max(0, _riders - 1);
         }
     }
 }

@@ -86,8 +86,18 @@ namespace TacosLibrary
             _game.AddRider();
         }
         
+        public void RemoveRider()
+        {
+            _game.RemoveRider();
+        }
+        
         public int GetRiders()
         {
+            if (_game == null)
+            {
+                return 0;
+            }
+            
             return _game.GetRiders();
         }
 

@@ -1,10 +1,15 @@
 namespace TacosLibrary.Clearings
 {
-    public class WyrmClearing : IClearing
+    public class WyrmClearing : PassClearing
     {
-        public bool CanPass(int diceRoll)
+        public WyrmClearing(int passValue) : base(passValue)
         {
-            return false;
+        }
+
+        public override void OnFail()
+        {
+            // Kill the rider.
+            GameManager.Instance.RemoveRider();
         }
     }
 }
