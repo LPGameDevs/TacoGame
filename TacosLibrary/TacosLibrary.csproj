@@ -38,20 +38,27 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="Clearings\BancheeClearing.cs" />
+        <Compile Include="Clearings\DuckClearing.cs" />
+        <Compile Include="Clearings\ElfClearing.cs" />
+        <Compile Include="Clearings\HenClearing.cs" />
         <Compile Include="Clearings\IClearing.cs" />
         <Compile Include="Clearings\PassClearing.cs" />
+        <Compile Include="Clearings\WitchClearing.cs" />
         <Compile Include="Clearings\WyrmClearing.cs" />
         <Compile Include="Game.cs" />
         <Compile Include="GameManager.cs" />
         <Compile Include="MapCard.cs" />
         <Compile Include="Meals.cs" />
         <Compile Include="Numbers.cs" />
+        <Compile Include="Path.cs" />
         <Compile Include="Phases\BasePhase.cs" />
         <Compile Include="Phases\Go.cs" />
         <Compile Include="Phases\InAndOut.cs" />
         <Compile Include="Phases\IPhase.cs" />
         <Compile Include="Phases\OrdersReady.cs" />
         <Compile Include="Phases\RoundAndRound.cs" />
+        <Compile Include="Phases\ShowMap.cs" />
         <Compile Include="Player.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="Rider.cs" />

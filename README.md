@@ -27,3 +27,15 @@ Unit tests to check the functionality of the game.
 - Dice are assigned to cards.
 - The game is run.
 - Outcome/points are reported.
+
+## Progress
+
+### MVP
+
+ - [ ] Roll Dice.
+ - [ ] Assign Rider/Die to Restaurant/Path
+ - [ ] Build paths
+ - [ ] Alter paths
+ - [ ] Add modifiers
+ - [ ] Summarise paths
+ - [ ] Track points

@@ -1,10 +1,10 @@
 namespace TacosLibrary.Clearings
 {
-    public class WyrmClearing : PassClearing
+    public class WitchClearing : PassClearing
     {
-        public override string Code() => "W";
+        public override string Code() => "S";
 
-        public WyrmClearing(int passValue) : base(passValue)
+        public WitchClearing(int passValue) : base(passValue)
         {
         }
 

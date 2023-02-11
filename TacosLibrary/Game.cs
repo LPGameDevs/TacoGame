@@ -10,6 +10,7 @@ namespace TacosLibrary
         public bool IsGameOver = false;
 
         private List<IClearing> _paths = new List<IClearing>();
+        private List<Path> _tempPaths = new List<Path>();
         private List<Rider> _riders = new List<Rider>();
 
         public int GetScore()
@@ -39,6 +40,16 @@ namespace TacosLibrary
         public void AddPath(IClearing clearing)
         {
             _paths.Add(clearing);
+        }
+
+        public void AddPath(Path path)
+        {
+            _tempPaths.Add(path);
+        }
+
+        public List<Path> GetPaths()
+        {
+            return _tempPaths;
         }
 
         public int GetRiders()

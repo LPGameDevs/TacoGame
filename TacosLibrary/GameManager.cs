@@ -182,6 +182,7 @@ namespace TacosLibrary
         private void StartNewTurn()
         {
             _phases = new Queue<IPhase>();
+            _phases.Enqueue(new ShowMap());
             // _phases.Enqueue(new InAndOut());
             // _phases.Enqueue(new RoundAndRound());
             _phases.Enqueue(new OrdersReady());
@@ -191,6 +192,16 @@ namespace TacosLibrary
         public string GetModifier()
         {
             return _modifier;
+        }
+
+        public void AddPath(Path path)
+        {
+            _game.AddPath(path);
+        }
+
+        public List<Path> GetPaths()
+        {
+            return _game.GetPaths();
         }
     }
 }

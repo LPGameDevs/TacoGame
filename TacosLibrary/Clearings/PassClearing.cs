@@ -18,5 +18,7 @@ namespace TacosLibrary.Clearings
         {
             // Drop the food.
         }
+
+        public virtual string Code() => "P";
     }
 }
