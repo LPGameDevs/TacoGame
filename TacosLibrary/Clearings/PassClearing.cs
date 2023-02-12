@@ -17,6 +17,12 @@ namespace TacosLibrary.Clearings
         public virtual void OnFail(Rider rider)
         {
             // Drop the food.
+            rider.Value = 0;
+        }
+        
+        public virtual void OnPass(Rider rider)
+        {
+            // Do nothing.
         }
 
         public virtual string Code() => "P";

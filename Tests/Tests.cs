@@ -351,7 +351,6 @@ namespace Tests
         {
             GameManager.Instance.StartGame();
 
-
             Rider rider = new Rider();
             rider.Value = dice;
             GameManager.Instance.AddRider(rider);
@@ -362,6 +361,41 @@ namespace Tests
             GameManager.Instance.PlayGame();
 
             Assert.AreEqual(riders, GameManager.Instance.GetRiderCount());
+        }
+        
+        [TestCase(1, 4, 3, 3)]
+        [TestCase(2, 3, 1, 3)]
+        [TestCase(1, 1, 0, 0)]
+        public void TestHenPath(int henValue, int riderBefore, int riderAfter, int finalScore)
+        {
+            GameManager.Instance.StartGame();
+
+            Rider rider = new Rider();
+            rider.Value = riderBefore;
+            GameManager.Instance.AddRider(rider);
+            
+            GameManager.Instance.AddPath(new Path().Add(new HenClearing(henValue)));
+            GameManager.Instance.PlayGame();
+
+            Assert.AreEqual(riderAfter, GameManager.Instance.GetRiders()[0].Value);
+            Assert.AreEqual(finalScore, GameManager.Instance.GetScore());
+        }
+        
+        [TestCase(1, 4, 5)]
+        [TestCase(2, 3, 5)]
+        [TestCase(1, 1, 2)]
+        public void TestElfPath(int elfValue, int riderBefore, int riderAfter)
+        {
+            GameManager.Instance.StartGame();
+
+            Rider rider = new Rider();
+            rider.Value = riderBefore;
+            GameManager.Instance.AddRider(rider);
+            
+            GameManager.Instance.AddPath(new Path().Add(new ElfClearing(elfValue)));
+            GameManager.Instance.PlayGame();
+
+            Assert.AreEqual(riderAfter, GameManager.Instance.GetRiders()[0].Value);
         }
     }
 }

@@ -22,7 +22,15 @@ namespace TacosLibrary
             for (int i = 0; i < 4; i++)
             {
                 int roll = new Random().Next(1, 7);
+
+                // // @todo: Remove this.
+                // if (i < 2)
+                // {
+                //     roll = 1;
+                // }
+
                 _rolls[i] = roll;
+
                 Console.WriteLine("Dice " + (i + 1) + " rolled a " + roll + ".");
             }
 
@@ -60,7 +68,7 @@ namespace TacosLibrary
                 }
                 
                 // Assign the roll to the rider.
-                Rider.FoodName food = (pathChoice == 1 || pathChoice == 3) ? Rider.FoodName.Veggie : Rider.FoodName.Tacos;
+                Rider.FoodName food = (pathChoice == 1 || pathChoice == 3) ? Rider.FoodName.Tacos : Rider.FoodName.Veggie;
 
                 Rider rider = new Rider(food);
                 rider.Path = pathChoice - 1;

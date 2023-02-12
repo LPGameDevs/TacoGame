@@ -33,6 +33,8 @@ namespace TacosLibrary
                 }
             }
 
+            Console.WriteLine("| T | V | T | V |");
+            Console.WriteLine("-----------------");
             Console.WriteLine("| 1 | 2 | 3 | 4 |");
 
             if (!GameManager.Instance.TurnIsOver)
@@ -73,9 +75,23 @@ namespace TacosLibrary
                 // Sort riders by path.
                 riders = riders.OrderBy(r => r.Path).ToArray();
 
+                int i = 0;
                 foreach (var rider in riders)
                 {
+                    while (i < rider.Path)
+                    {
+                        Console.Write("| x ");
+                        i++;
+                    }
+
                     Console.Write("|[" + rider.Value + "]");
+                    i++;
+                }
+                
+                while (i < 4)
+                {
+                    Console.Write("|   ");
+                    i++;
                 }
 
                 Console.WriteLine("|");

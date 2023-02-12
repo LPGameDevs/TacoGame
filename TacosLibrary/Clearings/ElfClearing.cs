@@ -1,17 +1,29 @@
 namespace TacosLibrary.Clearings
 {
-    public class ElfClearing : PassClearing
+    public class ElfClearing : IClearing
     {
-        public override string Code() => "E";
-
-        public ElfClearing(int passValue) : base(passValue)
+        public string Code() => "E";
+        
+        private int _encourageAmount;
+        
+        public ElfClearing(int encourageValue = 1)
         {
+            _encourageAmount = encourageValue;
         }
 
-        public override void OnFail(Rider rider)
+        public bool CanPass(int diceRoll)
         {
-            // Kill the rider.
-            GameManager.Instance.RemoveRider(rider);
+            return true;
+        }
+
+        public void OnPass(Rider rider)
+        {
+            rider.Value += _encourageAmount;
+        }
+        
+        public void OnFail(Rider rider)
+        {
+            // Can't fail.
         }
     }
 }

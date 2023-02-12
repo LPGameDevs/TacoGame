@@ -79,6 +79,16 @@ namespace TacosLibrary
                     {
                         clearing.OnFail(rider);
                         failed = true;
+                        break;
+                    }
+
+                    clearing.OnPass(rider);
+
+                    // If passing has exhausted rider value, they fail.
+                    if (rider.Value < 1)
+                    {
+                        failed = true;
+                        break;
                     }
                 }
 

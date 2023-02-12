@@ -1,17 +1,29 @@
 namespace TacosLibrary.Clearings
 {
-    public class HenClearing : PassClearing
+    public class HenClearing : IClearing
     {
-        public override string Code() => "H";
+        public string Code() => "H";
         
-        public HenClearing(int passValue) : base(passValue)
+        private int _hurtAmount;
+        
+        public HenClearing(int hurtValue = 1)
         {
+            _hurtAmount = hurtValue;
         }
 
-        public override void OnFail(Rider rider)
+        public bool CanPass(int diceRoll)
         {
-            // Kill the rider.
-            GameManager.Instance.RemoveRider(rider);
+            return true;
+        }
+
+        public void OnPass(Rider rider)
+        {
+            rider.Value -= _hurtAmount;
+        }
+        
+        public void OnFail(Rider rider)
+        {
+            // Can't fail.
         }
     }
 }
