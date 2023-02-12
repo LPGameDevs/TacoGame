@@ -37,27 +37,28 @@ namespace TacosLibrary
         {
             return _game;
         }
-        
+
         public void StartGame()
         {
             _game = new Game();
         }
-        
+
         #endregion
 
         #region GameState
 
-        public bool IsGameOver() {
+        public bool IsGameOver()
+        {
             if (_game == null)
             {
                 return true;
             }
-            
+
             if (_game.IsGameOver)
             {
                 return true;
             }
-            
+
             return false;
         }
 
@@ -68,42 +69,57 @@ namespace TacosLibrary
 
         public void AddPath(int minimumDiceRoll)
         {
-            _game.AddPath(new PassClearing(minimumDiceRoll));
+            _game.AddPath(new Path().Add(new PassClearing(minimumDiceRoll)));
         }
-        
-        public void AddPath(IClearing path)
+
+        public void AddPath(Path path)
         {
             _game.AddPath(path);
         }
 
+        public List<Path> GetPaths()
+        {
+            return _game.GetPaths();
+        }
+
+
+
+        public void AddRider(Rider rider)
+        {
+            _game.AddRider(rider);
+        }
+
         public void AddRider(Rider.FoodName food = Rider.FoodName.Tacos)
         {
-            _game.AddRider(food);
+            Rider rider = new Rider(food);
+            AddRider(rider);
         }
-        
+
+        public void AddRider(Rider.FoodName food, int value)
+        {
+            Rider rider = new Rider(food);
+            rider.Value = value;
+            AddRider(rider);
+        }
+
         public void RemoveRider(Rider rider)
         {
             _game.RemoveRider(rider);
         }
-        
+
         public int GetRiders()
         {
             if (_game == null)
             {
                 return 0;
             }
-            
+
             return _game.GetRiders();
         }
 
         #endregion
 
         #region Management
-
-        public void RollDice(int outcome)
-        {
-            _game.AddDiceRoll(outcome);
-        }
 
         public void PlayGame()
         {
@@ -148,7 +164,7 @@ namespace TacosLibrary
             {
                 _mapCards.Add(new MapCard());
             }
-            
+
             _modifier = "Flat Tire";
 
             // for (int i = 0; i < 4; i++)
@@ -192,16 +208,6 @@ namespace TacosLibrary
         public string GetModifier()
         {
             return _modifier;
-        }
-
-        public void AddPath(Path path)
-        {
-            _game.AddPath(path);
-        }
-
-        public List<Path> GetPaths()
-        {
-            return _game.GetPaths();
         }
     }
 }

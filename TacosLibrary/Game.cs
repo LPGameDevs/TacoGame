@@ -9,8 +9,7 @@ namespace TacosLibrary
         private int _score = 0;
         public bool IsGameOver = false;
 
-        private List<IClearing> _paths = new List<IClearing>();
-        private List<Path> _tempPaths = new List<Path>();
+        private List<Path> _paths = new List<Path>();
         private List<Rider> _riders = new List<Rider>();
 
         public int GetScore()
@@ -37,19 +36,14 @@ namespace TacosLibrary
             }
         }
 
-        public void AddPath(IClearing clearing)
-        {
-            _paths.Add(clearing);
-        }
-
         public void AddPath(Path path)
         {
-            _tempPaths.Add(path);
+            _paths.Add(path);
         }
 
         public List<Path> GetPaths()
         {
-            return _tempPaths;
+            return _paths;
         }
 
         public int GetRiders()
@@ -57,9 +51,9 @@ namespace TacosLibrary
             return _riders.Count;
         }
 
-        public void AddRider(Rider.FoodName food)
+        public void AddRider(Rider rider)
         {
-            _riders.Add(new Rider(food));
+            _riders.Add(rider);
         }
 
         public void RemoveRider(Rider rider)
@@ -76,11 +70,14 @@ namespace TacosLibrary
             {
                 // All paths must pass to score.
                 bool failed = false;
-                foreach (var path in _paths)
+
+                var path = _paths[rider.Path];
+                
+                foreach (var clearing in path.GetClearings())
                 {
-                    if (path.CanPass(rider.Value) == false)
+                    if (clearing.CanPass(rider.Value) == false)
                     {
-                        path.OnFail(rider);
+                        clearing.OnFail(rider);
                         failed = true;
                     }
                 }

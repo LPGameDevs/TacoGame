@@ -13,11 +13,18 @@ namespace TacosLibrary
 
         public FoodName Food;
         public bool Delivered = false;
+        public int Path = 0;
         
         public Rider(FoodName food)
         {
             HasValue = false;
             Food = food;
+        }
+        
+        public Rider()
+        {
+            HasValue = false;
+            Food = FoodName.Tacos;
         }
 
         public void SetValue(int outcome)

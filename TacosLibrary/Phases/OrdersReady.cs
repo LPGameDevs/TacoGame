@@ -30,16 +30,15 @@ namespace TacosLibrary
             {
                 Console.WriteLine("Assign roll " + roll + " to a rider. (0 for Tacos and 1 for Veggies)");
                 var rollInput = Console.ReadLine();
-                bool isNumber = int.TryParse(rollInput, out int rider);
-                if (!isNumber || (rider != 0 && rider != 1))
+                bool isNumber = int.TryParse(rollInput, out int foodChoice);
+                if (!isNumber || (foodChoice != 0 && foodChoice != 1))
                 {
                     Console.WriteLine("That is not a number. We've assigned tacos.");
                 }
                 
                 // Assign the roll to the rider.
-                Rider.FoodName food = rider == 1 ? Rider.FoodName.Veggie : Rider.FoodName.Tacos;
-                GameManager.Instance.AddRider(food);
-                GameManager.Instance.RollDice(roll);
+                Rider.FoodName food = foodChoice == 1 ? Rider.FoodName.Veggie : Rider.FoodName.Tacos;
+                GameManager.Instance.AddRider(food, roll);
             }
         }
         

@@ -37,12 +37,16 @@ namespace Tests
         public void TestGameScore()
         {
             GameManager.Instance.StartGame();
+            GameManager.Instance.AddPath(0);
+
             int startingScore = GameManager.Instance.GetScore();
 
             Assert.AreEqual(0, startingScore);
 
-            GameManager.Instance.AddRider();
-            GameManager.Instance.RollDice(3);
+            Rider rider = new Rider();
+            rider.Value = 3;
+            GameManager.Instance.AddRider(rider);
+
             GameManager.Instance.PlayGame();
             int finalScore = GameManager.Instance.GetScore();
 
@@ -76,8 +80,9 @@ namespace Tests
             GameManager.Instance.StartGame();
             GameManager.Instance.AddPath(path);
 
-            GameManager.Instance.AddRider();
-            GameManager.Instance.RollDice(dice);
+            Rider rider = new Rider();
+            rider.Value = dice;
+            GameManager.Instance.AddRider(rider);
 
             GameManager.Instance.PlayGame();
 
@@ -92,33 +97,42 @@ namespace Tests
             GameManager.Instance.StartGame();
             GameManager.Instance.AddPath(path);
 
-            GameManager.Instance.AddRider();
-            GameManager.Instance.AddRider();
-            GameManager.Instance.RollDice(dice1);
-            GameManager.Instance.RollDice(dice2);
+            Rider rider1 = new Rider();
+            rider1.Value = dice1;
+            GameManager.Instance.AddRider(rider1);
+
+            Rider rider2 = new Rider();
+            rider2.Value = dice2;
+            GameManager.Instance.AddRider(rider2);
 
             GameManager.Instance.PlayGame();
 
             Assert.AreEqual(score, GameManager.Instance.GetScore());
         }
 
-        [TestCase(6, 4, 2, 3, 0)]
-        [TestCase(6, 4, 2, 5, 0)]
+        [TestCase(3, 5, 2, 4, 0)]
+        [TestCase(6, 4, 2, 5, 3)]
         [TestCase(4, 5, 2, 6, 3)]
-        [TestCase(3, 5, 4, 6, 3)]
+        [TestCase(3, 5, 4, 6, 6)]
         [TestCase(5, 3, 6, 6, 6)]
         [TestCase(2, 3, 1, 3, 0)]
         [TestCase(2, 3, 1, 4, 3)]
         public void TestMultiplePaths(int path1, int path2, int dice1, int dice2, int score)
         {
             GameManager.Instance.StartGame();
+
             GameManager.Instance.AddPath(path1);
             GameManager.Instance.AddPath(path2);
 
-            GameManager.Instance.AddRider();
-            GameManager.Instance.AddRider();
-            GameManager.Instance.RollDice(dice1);
-            GameManager.Instance.RollDice(dice2);
+            Rider rider1 = new Rider();
+            rider1.Value = dice1;
+            rider1.Path = 0;
+            Rider rider2 = new Rider();
+            rider2.Value = dice2;
+            rider2.Path = 1;
+
+            GameManager.Instance.AddRider(rider1);
+            GameManager.Instance.AddRider(rider2);
 
             GameManager.Instance.PlayGame();
 
@@ -153,6 +167,7 @@ namespace Tests
             Assert.AreEqual(0, GameManager.Instance.GetRiders());
 
             GameManager.Instance.StartGame();
+            GameManager.Instance.AddPath(0);
 
             Assert.AreEqual(0, GameManager.Instance.GetRiders());
 
@@ -173,8 +188,12 @@ namespace Tests
         public void TestOneTaco()
         {
             GameManager.Instance.StartGame();
-            GameManager.Instance.AddRider();
-            GameManager.Instance.RollDice(1);
+            GameManager.Instance.AddPath(0);
+
+            Rider rider = new Rider();
+            rider.Value = 1;
+            GameManager.Instance.AddRider(rider);
+
             GameManager.Instance.PlayGame();
 
             Assert.AreEqual(3, GameManager.Instance.GetScore());
@@ -184,8 +203,12 @@ namespace Tests
         public void TestOneVeggie()
         {
             GameManager.Instance.StartGame();
-            GameManager.Instance.AddRider(Rider.FoodName.Veggie);
-            GameManager.Instance.RollDice(1);
+            GameManager.Instance.AddPath(0);
+
+            Rider rider = new Rider(Rider.FoodName.Veggie);
+            rider.Value = 1;
+            GameManager.Instance.AddRider(rider);
+
             GameManager.Instance.PlayGame();
 
             Assert.AreEqual(1, GameManager.Instance.GetScore());
@@ -195,11 +218,15 @@ namespace Tests
         public void TestTwoVeggie()
         {
             GameManager.Instance.StartGame();
+            GameManager.Instance.AddPath(0);
 
-            GameManager.Instance.AddRider(Rider.FoodName.Veggie);
-            GameManager.Instance.AddRider(Rider.FoodName.Veggie);
-            GameManager.Instance.RollDice(1);
-            GameManager.Instance.RollDice(1);
+            Rider rider = new Rider(Rider.FoodName.Veggie);
+            rider.Value = 1;
+            GameManager.Instance.AddRider(rider);
+
+            rider = new Rider(Rider.FoodName.Veggie);
+            rider.Value = 1;
+            GameManager.Instance.AddRider(rider);
 
             GameManager.Instance.PlayGame();
 
@@ -210,11 +237,15 @@ namespace Tests
         public void TestTwoTacos()
         {
             GameManager.Instance.StartGame();
+            GameManager.Instance.AddPath(0);
 
-            GameManager.Instance.AddRider(Rider.FoodName.Tacos);
-            GameManager.Instance.AddRider(Rider.FoodName.Tacos);
-            GameManager.Instance.RollDice(1);
-            GameManager.Instance.RollDice(1);
+            Rider rider1 = new Rider(Rider.FoodName.Tacos);
+            rider1.Value = 1;
+            GameManager.Instance.AddRider(rider1);
+
+            Rider rider2 = new Rider(Rider.FoodName.Tacos);
+            rider2.Value = 1;
+            GameManager.Instance.AddRider(rider2);
 
             GameManager.Instance.PlayGame();
 
@@ -225,11 +256,16 @@ namespace Tests
         public void TestTwoMixed()
         {
             GameManager.Instance.StartGame();
+            GameManager.Instance.AddPath(0);
 
-            GameManager.Instance.AddRider(Rider.FoodName.Veggie);
-            GameManager.Instance.AddRider(Rider.FoodName.Tacos);
-            GameManager.Instance.RollDice(1);
-            GameManager.Instance.RollDice(1);
+            Rider rider1 = new Rider(Rider.FoodName.Veggie);
+            rider1.Value = 1;
+            GameManager.Instance.AddRider(rider1);
+
+            Rider rider2 = new Rider(Rider.FoodName.Tacos);
+            rider2.Value = 1;
+            GameManager.Instance.AddRider(rider2);
+
             GameManager.Instance.PlayGame();
 
             Assert.AreEqual(3, GameManager.Instance.GetScore());
@@ -239,13 +275,12 @@ namespace Tests
         public void TestThreeMixedOneTaco()
         {
             GameManager.Instance.StartGame();
+            GameManager.Instance.AddPath(0);
 
-            GameManager.Instance.AddRider(Rider.FoodName.Tacos);
-            GameManager.Instance.AddRider(Rider.FoodName.Veggie);
-            GameManager.Instance.AddRider(Rider.FoodName.Veggie);
-            GameManager.Instance.RollDice(1);
-            GameManager.Instance.RollDice(1);
-            GameManager.Instance.RollDice(1);
+
+            GameManager.Instance.AddRider(Rider.FoodName.Tacos, 1);
+            GameManager.Instance.AddRider(Rider.FoodName.Veggie, 1);
+            GameManager.Instance.AddRider(Rider.FoodName.Veggie, 1);
 
             GameManager.Instance.PlayGame();
 
@@ -256,13 +291,12 @@ namespace Tests
         public void TestThreeMixedTwoTacos()
         {
             GameManager.Instance.StartGame();
+            GameManager.Instance.AddPath(0);
 
-            GameManager.Instance.AddRider(Rider.FoodName.Tacos);
-            GameManager.Instance.AddRider(Rider.FoodName.Veggie);
-            GameManager.Instance.AddRider(Rider.FoodName.Tacos);
-            GameManager.Instance.RollDice(1);
-            GameManager.Instance.RollDice(1);
-            GameManager.Instance.RollDice(1);
+
+            GameManager.Instance.AddRider(Rider.FoodName.Tacos, 1);
+            GameManager.Instance.AddRider(Rider.FoodName.Veggie, 1);
+            GameManager.Instance.AddRider(Rider.FoodName.Tacos, 1);
 
             GameManager.Instance.PlayGame();
 
@@ -274,14 +308,12 @@ namespace Tests
         {
             GameManager.Instance.StartGame();
 
-            GameManager.Instance.AddRider(Rider.FoodName.Tacos);
-            GameManager.Instance.AddRider(Rider.FoodName.Veggie);
-            GameManager.Instance.AddRider(Rider.FoodName.Veggie);
-            GameManager.Instance.AddRider(Rider.FoodName.Tacos);
-            GameManager.Instance.RollDice(1);
-            GameManager.Instance.RollDice(1);
-            GameManager.Instance.RollDice(1);
-            GameManager.Instance.RollDice(1);
+            GameManager.Instance.AddPath(0);
+
+            GameManager.Instance.AddRider(Rider.FoodName.Tacos, 1);
+            GameManager.Instance.AddRider(Rider.FoodName.Veggie, 1);
+            GameManager.Instance.AddRider(Rider.FoodName.Veggie, 1);
+            GameManager.Instance.AddRider(Rider.FoodName.Tacos, 1);
 
             GameManager.Instance.PlayGame();
 
@@ -292,18 +324,41 @@ namespace Tests
     [TestFixture]
     public class PathTests
     {
+        public void TestPathLength()
+        {
+            GameManager.Instance.StartGame();
+
+            var paths = GameManager.Instance.GetPaths();
+            Assert.AreEqual(0, paths.Count);
+
+            GameManager.Instance.AddPath(new Path().Add(new PassClearing(1)).Add(new PassClearing(2)));
+            GameManager.Instance.AddPath(new Path().Add(new PassClearing(1)));
+            GameManager.Instance.AddPath(new Path().Add(new PassClearing(1)).Add(new PassClearing(2)));
+
+            paths = GameManager.Instance.GetPaths();
+            Assert.AreEqual(3, paths.Count);
+
+            Assert.AreEqual(2, paths[0].GetClearings().Count);
+            Assert.AreEqual(1, paths[1].GetClearings().Count);
+            Assert.AreEqual(2, paths[2].GetClearings().Count);
+        }
+
+
         [TestCase(3, 4, 1)]
         [TestCase(3, 3, 0)]
         [TestCase(3, 2, 0)]
         public void TestWyrmPath(int wyrmValue, int dice, int riders)
         {
             GameManager.Instance.StartGame();
-            GameManager.Instance.AddRider();
+
+
+            Rider rider = new Rider();
+            rider.Value = dice;
+            GameManager.Instance.AddRider(rider);
 
             Assert.AreEqual(1, GameManager.Instance.GetRiders());
 
-            GameManager.Instance.AddPath(new WyrmClearing(wyrmValue));
-            GameManager.Instance.RollDice(dice);
+            GameManager.Instance.AddPath(new Path().Add(new WyrmClearing(wyrmValue)));
             GameManager.Instance.PlayGame();
 
             Assert.AreEqual(riders, GameManager.Instance.GetRiders());
