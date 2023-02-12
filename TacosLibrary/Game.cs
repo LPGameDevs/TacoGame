@@ -46,9 +46,9 @@ namespace TacosLibrary
             return _paths;
         }
 
-        public int GetRiders()
+        public List<Rider> GetRiders()
         {
-            return _riders.Count;
+            return _riders;
         }
 
         public void AddRider(Rider rider)

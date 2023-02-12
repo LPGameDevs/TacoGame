@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TacosLibrary
 {
@@ -33,6 +34,12 @@ namespace TacosLibrary
             }
 
             Console.WriteLine("| 1 | 2 | 3 | 4 |");
+
+            if (!GameManager.Instance.TurnIsOver)
+            {
+                PrintRiders();
+            }
+
             for (int i = 0; i < max; i++)
             {
                 Console.WriteLine("|---|---|---|---|");
@@ -46,6 +53,29 @@ namespace TacosLibrary
                     {
                         Console.Write("|---");
                     }
+                }
+
+                Console.WriteLine("|");
+            }
+            
+            if (GameManager.Instance.TurnIsOver)
+            {
+                PrintRiders();
+            }
+        }
+
+        private void PrintRiders()
+        {
+            if (GameManager.Instance.GetRiderCount() > 0)
+            {
+                var riders = GameManager.Instance.GetRiders();
+
+                // Sort riders by path.
+                riders = riders.OrderBy(r => r.Path).ToArray();
+
+                foreach (var rider in riders)
+                {
+                    Console.Write("|[" + rider.Value + "]");
                 }
 
                 Console.WriteLine("|");

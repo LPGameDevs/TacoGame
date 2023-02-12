@@ -164,20 +164,20 @@ namespace Tests
         [Test]
         public void TestRiders()
         {
-            Assert.AreEqual(0, GameManager.Instance.GetRiders());
+            Assert.AreEqual(0, GameManager.Instance.GetRiderCount());
 
             GameManager.Instance.StartGame();
             GameManager.Instance.AddPath(0);
 
-            Assert.AreEqual(0, GameManager.Instance.GetRiders());
+            Assert.AreEqual(0, GameManager.Instance.GetRiderCount());
 
             GameManager.Instance.AddRider();
 
-            Assert.AreEqual(1, GameManager.Instance.GetRiders());
+            Assert.AreEqual(1, GameManager.Instance.GetRiderCount());
 
             GameManager.Instance.PlayGame();
 
-            Assert.AreEqual(1, GameManager.Instance.GetRiders());
+            Assert.AreEqual(1, GameManager.Instance.GetRiderCount());
         }
     }
 
@@ -356,12 +356,12 @@ namespace Tests
             rider.Value = dice;
             GameManager.Instance.AddRider(rider);
 
-            Assert.AreEqual(1, GameManager.Instance.GetRiders());
+            Assert.AreEqual(1, GameManager.Instance.GetRiderCount());
 
             GameManager.Instance.AddPath(new Path().Add(new WyrmClearing(wyrmValue)));
             GameManager.Instance.PlayGame();
 
-            Assert.AreEqual(riders, GameManager.Instance.GetRiders());
+            Assert.AreEqual(riders, GameManager.Instance.GetRiderCount());
         }
     }
 }

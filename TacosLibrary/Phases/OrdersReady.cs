@@ -1,10 +1,13 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace TacosLibrary
 {
     public class OrdersReady : BasePhase, IPhase
     {
-
+        private int[] _rolls = new int[4];
+        
         public override string Instructions => "Roll four dice and assign one dice to each rider.";
         
         public override void Input()
@@ -14,34 +17,73 @@ namespace TacosLibrary
             
             Console.WriteLine("Press enter to roll dice.");
             var input = Console.ReadLine();
-
-            int[] rolls = new int[4];
             
             // Roll dice.
             for (int i = 0; i < 4; i++)
             {
                 int roll = new Random().Next(1, 7);
-                rolls[i] = roll;
+                _rolls[i] = roll;
                 Console.WriteLine("Dice " + (i + 1) + " rolled a " + roll + ".");
             }
-            
+
             // Assign dice to riders.
-            foreach (int roll in rolls)
+            AssignRolls();
+        }
+
+        private void AssignRolls()
+        {
+            for (int i = GameManager.Instance.GetRiderCount(); i < _rolls.Length; i++)
             {
-                Console.WriteLine("Assign roll " + roll + " to a rider. (0 for Tacos and 1 for Veggies)");
-                var rollInput = Console.ReadLine();
-                bool isNumber = int.TryParse(rollInput, out int foodChoice);
-                if (!isNumber || (foodChoice != 0 && foodChoice != 1))
+                int roll = _rolls[i];
+                var pathOptions = GetRemainingPaths();
+                if (pathOptions.Count == 0)
                 {
-                    Console.WriteLine("That is not a number. We've assigned tacos.");
+                    Console.WriteLine("All paths are taken.");
+                    return;
+                }
+
+                Console.WriteLine("Assign roll " + roll + " to a path. (" + string.Join(", ", pathOptions) + ")");
+                var rollInput = Console.ReadLine();
+                bool isNumber = int.TryParse(rollInput, out int pathChoice);
+                if (!isNumber || (pathChoice < 1 || pathChoice > 4))
+                {
+                    Console.WriteLine("That is not a valid path.");
+                    AssignRolls();
+                    return;
+                }
+                
+                if (!pathOptions.Contains(pathChoice))
+                {
+                    Console.WriteLine("That path is already taken.");
+                    AssignRolls();
+                    return;
                 }
                 
                 // Assign the roll to the rider.
-                Rider.FoodName food = foodChoice == 1 ? Rider.FoodName.Veggie : Rider.FoodName.Tacos;
-                GameManager.Instance.AddRider(food, roll);
+                Rider.FoodName food = (pathChoice == 1 || pathChoice == 3) ? Rider.FoodName.Veggie : Rider.FoodName.Tacos;
+
+                Rider rider = new Rider(food);
+                rider.Path = pathChoice - 1;
+                rider.Value = roll;
+                
+                GameManager.Instance.AddRider(rider);
             }
         }
-        
+
+        private List<int> GetRemainingPaths()
+        {
+            var options = new List<int>() {1, 2, 3, 4};
+            var riders = GameManager.Instance.GetRiders();
+
+            foreach (Rider rider in riders)
+            {
+                // Get rider path;
+                options.Remove(rider.Path + 1);
+            }
+
+            return options;
+        }
+
         public override void Process()
         {
             // Send a game event to assign the dice to the riders.

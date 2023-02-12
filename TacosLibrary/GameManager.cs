@@ -107,15 +107,21 @@ namespace TacosLibrary
             _game.RemoveRider(rider);
         }
 
-        public int GetRiders()
+        public int GetRiderCount()
         {
             if (_game == null)
             {
                 return 0;
             }
 
-            return _game.GetRiders();
+            return _game.GetRiders().Count;
         }
+        
+        public Rider[] GetRiders()
+        {
+            return _game.GetRiders().ToArray();
+        }
+        
 
         #endregion
 
@@ -202,7 +208,9 @@ namespace TacosLibrary
             // _phases.Enqueue(new InAndOut());
             // _phases.Enqueue(new RoundAndRound());
             _phases.Enqueue(new OrdersReady());
+            _phases.Enqueue(new ShowMap());
             _phases.Enqueue(new Go());
+            _phases.Enqueue(new ShowMap());
         }
 
         public string GetModifier()

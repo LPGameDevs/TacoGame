@@ -12,19 +12,14 @@ namespace TacosLibrary
 
         public override void Process()
         {
-            while (_riders.Count > 0)
-            {
-                Rider rider = _riders[0];
-                
-                
-                
-                _riders.RemoveAt(0);
-            }
+            GameManager.Instance.PlayGame();
+            Console.WriteLine("The final score is:" + GameManager.Instance.GetScore());
         }
         
         public override void Response()
         {
             // Display the riders on their journey.
+            
         }
     }
 }
