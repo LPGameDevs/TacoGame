@@ -2,10 +2,12 @@ namespace TacosLibrary.Clearings
 {
     public class ElfClearing : IClearing
     {
-        public string Code() => "E";
-        
+        public string Code() => "E(" + _encourageAmount + ")";
+
+        public virtual string Value() => _encourageAmount.ToString();
+
         private int _encourageAmount;
-        
+
         public ElfClearing(int encourageValue = 1)
         {
             _encourageAmount = encourageValue;
@@ -20,7 +22,7 @@ namespace TacosLibrary.Clearings
         {
             rider.Value += _encourageAmount;
         }
-        
+
         public void OnFail(Rider rider)
         {
             // Can't fail.

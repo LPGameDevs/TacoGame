@@ -434,10 +434,32 @@ namespace Tests
             Assert.AreEqual(riders, GameManager.Instance.GetRiderCount());
         }
 
-        [TestCase(1, 1, 2)]
-        public void TestWitchPath(int elfValue, int riderBefore, int riderAfter)
+        [TestCase(true, 0, 1)]
+        [TestCase(true, 1, 0)]
+        [TestCase(false, 0, 0)]
+        [TestCase(false, 1, 0)]
+        public void TestWitchPath(bool useWitch, int path, int riders)
         {
-            return;
+            GameManager.Instance.StartGame();
+
+            Rider rider = new Rider();
+            rider.Value = 6;
+            rider.Path = path;
+            GameManager.Instance.AddRider(rider);
+
+            if (useWitch)
+            {
+                GameManager.Instance.AddPath(new Path().Add(new WitchClearing()).Add(new WyrmClearing(7)));
+                GameManager.Instance.AddPath(new Path().Add(new WyrmClearing(7)).Add(new WitchClearing()));
+            }
+            else
+            {
+                GameManager.Instance.AddPath(new Path().Add(new WyrmClearing(7)));
+                GameManager.Instance.AddPath(new Path().Add(new WyrmClearing(7)));
+            }
+
+            GameManager.Instance.PlayGame();
+            Assert.AreEqual(riders, GameManager.Instance.GetRiderCount());
         }
     }
 }

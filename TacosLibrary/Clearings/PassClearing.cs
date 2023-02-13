@@ -25,6 +25,6 @@ namespace TacosLibrary.Clearings
             // Do nothing.
         }
 
-        public virtual string Code() => "P";
+        public virtual string Code() => " P  ";
     }
 }

@@ -4,7 +4,7 @@ namespace TacosLibrary.Clearings
     {
         private int _duckValue;
 
-        public string Code() => "D";
+        public string Code() => "D(" + _duckValue + ")";
 
         public DuckClearing(int duckValue)
         {

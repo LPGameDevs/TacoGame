@@ -8,10 +8,10 @@ namespace TacosGame
     {
         static void Main(string[] args)
         {
-            
+
             // Setup
             SetupGame();
-            
+
             // Play
             PlayGame();
 
@@ -23,20 +23,20 @@ namespace TacosGame
         {
             Console.WriteLine("Welcome to the Tacos Game!");
             GameManager.Instance.StartGame();
-            
+
             // Add the first clearing
             Random random = new Random();
 
-            Path path = new Path().Add(new HenClearing(1)).Add(new BansheeClearing(1)).Add(new BansheeClearing(1));
+            Path path = new Path().Add(new HenClearing(1)).Add(new BansheeClearing(4)).Add(new BansheeClearing(4));
             GameManager.Instance.AddPath(path);
 
-            path = new Path().Add(new HenClearing(1)).Add(new WitchClearing(1)).Add(new HenClearing(1));
+            path = new Path().Add(new HenClearing(1)).Add(new WitchClearing()).Add(new HenClearing(1));
             GameManager.Instance.AddPath(path);
-            
-            path = new Path().Add(new DuckClearing(1)).Add(new HenClearing(1)).Add(new WyrmClearing(1)).Add(new WitchClearing(1)).Add(new BansheeClearing(1)).Add(new ElfClearing(1));
+
+            path = new Path().Add(new DuckClearing(4)).Add(new HenClearing(1)).Add(new WyrmClearing(3)).Add(new WitchClearing()).Add(new BansheeClearing(4)).Add(new ElfClearing(1));
             GameManager.Instance.AddPath(path);
-            
-            path = new Path().Add(new ElfClearing(1)).Add(new WyrmClearing(1)).Add(new WitchClearing(1)).Add(new BansheeClearing(1)).Add(new WitchClearing(1));
+
+            path = new Path().Add(new ElfClearing(1)).Add(new WyrmClearing(3)).Add(new WitchClearing()).Add(new BansheeClearing(4)).Add(new WitchClearing());
             GameManager.Instance.AddPath(path);
         }
 
@@ -46,7 +46,7 @@ namespace TacosGame
             // Phase 2: Round and Round
             // Phase 3: Orders Ready
             // Phase 4: Off we go!
-            
+
             bool playAgain = true;
             while (playAgain)
             {
@@ -60,7 +60,11 @@ namespace TacosGame
                     if (answer.Length == 0 || answer.Substring(0,1).ToLower() != "y")
                     {
                         playAgain = false;
-                    }    
+                    }
+                    else
+                    {
+                        SetupGame();
+                    }
                 }
             }
         }

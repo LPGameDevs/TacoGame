@@ -2,26 +2,25 @@ namespace TacosLibrary.Clearings
 {
     public class WitchClearing : IClearing
     {
-        public void OnPass(Rider rider)
-        {
-            throw new System.NotImplementedException();
-        }
+        public string Code() => "<-->";
 
-        public string Code() => "S";
-
-        public WitchClearing(int passValue)
+        public WitchClearing()
         {
         }
 
         public bool CanPass(int diceRoll)
         {
-            throw new System.NotImplementedException();
+            return true;
+        }
+
+        public void OnPass(Rider rider)
+        {
+            rider.Path = 1;
         }
 
         public void OnFail(Rider rider)
         {
-            // Kill the rider.
-            GameManager.Instance.RemoveRider(rider);
+            // Do nothing.
         }
     }
 }

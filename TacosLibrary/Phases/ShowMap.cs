@@ -16,7 +16,7 @@ namespace TacosLibrary
             Console.WriteLine("Do you want to see the current map layout? (y/n)");
             var input = Console.ReadLine();
 
-            if (input.Length == 0 || input.ToLower()[0] != 'y')
+            if (input.Length > 0 && input.ToLower()[0] == 'n')
             {
                 return;
             }
@@ -33,37 +33,39 @@ namespace TacosLibrary
                 }
             }
 
-            Console.WriteLine("| T | V | T | V |");
-            Console.WriteLine("-----------------");
-            Console.WriteLine("| 1 | 2 | 3 | 4 |");
+            Console.WriteLine("|  T   |  V   |  T   |  V   |");
+            Console.WriteLine("-----------------------------");
+            Console.WriteLine("|  1   |  2   |  3   |  4   |");
 
             if (!GameManager.Instance.TurnIsOver)
             {
                 PrintRiders();
             }
 
+            Console.WriteLine("|------|------|------|------|");
             for (int i = 0; i < max; i++)
             {
-                Console.WriteLine("|---|---|---|---|");
                 foreach (Path path in paths)
                 {
                     if (path.GetClearings().Count > i)
                     {
-                        Console.Write("|-" + path.GetClearings()[i].Code() + "-");
+                        Console.Write("| " + path.GetClearings()[i].Code() + " ");
                     }
                     else
                     {
-                        Console.Write("|---");
+                        Console.Write("|      ");
                     }
                 }
 
                 Console.WriteLine("|");
             }
-            
+
             if (GameManager.Instance.TurnIsOver)
             {
                 PrintRiders();
             }
+            Console.WriteLine("|------|------|------|------|");
+
         }
 
         private void PrintRiders()
@@ -75,22 +77,24 @@ namespace TacosLibrary
                 // Sort riders by path.
                 riders = riders.OrderBy(r => r.Path).ToArray();
 
+                Console.WriteLine("|------|------|------|------|");
+
                 int i = 0;
                 foreach (var rider in riders)
                 {
                     while (i < rider.Path)
                     {
-                        Console.Write("| x ");
+                        Console.Write("|  x   ");
                         i++;
                     }
 
-                    Console.Write("|[" + rider.Value + "]");
+                    Console.Write("| [" + rider.Value + "]  ");
                     i++;
                 }
-                
+
                 while (i < 4)
                 {
-                    Console.Write("|   ");
+                    Console.Write("|      ");
                     i++;
                 }
 

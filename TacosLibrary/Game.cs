@@ -68,43 +68,67 @@ namespace TacosLibrary
         {
             foreach (var rider in _riders.ToArray())
             {
-                // All paths must pass to score.
-                bool failed = false;
-
                 var path = _paths[rider.Path];
+                SendRider(rider, path);
+            }
+        }
 
-                foreach (var clearing in path.GetClearings())
-                {
-                    if (clearing.CanPass(rider.Value) == false)
-                    {
-                        clearing.OnFail(rider);
-                        failed = true;
-                        break;
-                    }
+        private void SendRider(Rider rider, Path path, bool skipToWitch = false)
+        {
+            // All paths must pass to score.
+            bool failed = false;
 
-                    clearing.OnPass(rider);
-
-                    // If we deliver early we just exit.
-                    if (rider.Delivered)
-                    {
-                        break;
-                    }
-
-                    // If passing has exhausted rider value, they fail.
-                    if (rider.Value < 1)
-                    {
-                        failed = true;
-                        break;
-                    }
-                }
-
-                if (failed)
+            bool skippedToWitch = false;
+            foreach (var clearing in path.GetClearings())
+            {
+                // Check if we need to skip to a witch.
+                if (skipToWitch && !skippedToWitch && clearing.Code() != "<-->")
                 {
                     continue;
                 }
 
-                rider.Delivered = true;
+                // We are now at a witch.
+                if (skipToWitch && !skippedToWitch)
+                {
+                    skippedToWitch = true;
+                    continue;
+                }
+
+                if (clearing.CanPass(rider.Value) == false)
+                {
+                    clearing.OnFail(rider);
+                    failed = true;
+                    break;
+                }
+
+                clearing.OnPass(rider);
+
+                // If we deliver early we just exit.
+                if (rider.Delivered)
+                {
+                    break;
+                }
+
+                // If passing has exhausted rider value, they fail.
+                if (rider.Value < 1)
+                {
+                    failed = true;
+                    break;
+                }
+
+                if (_paths[rider.Path] != path)
+                {
+                    SendRider(rider, _paths[rider.Path], true);
+                    break;
+                }
             }
+
+            if (failed)
+            {
+                return;
+            }
+
+            rider.Delivered = true;
         }
 
         public void CalculateScore()
