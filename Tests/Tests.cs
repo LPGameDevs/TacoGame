@@ -438,7 +438,7 @@ namespace Tests
         [TestCase(true, 1, 0)]
         [TestCase(false, 0, 0)]
         [TestCase(false, 1, 0)]
-        public void TestWitchPath(bool useWitch, int path, int riders)
+        public void TestTwoWitchPath(bool useWitch, int path, int riders)
         {
             GameManager.Instance.StartGame();
 
@@ -460,6 +460,57 @@ namespace Tests
 
             GameManager.Instance.PlayGame();
             Assert.AreEqual(riders, GameManager.Instance.GetRiderCount());
+        }
+
+        [TestCase(true, 0, 0, 0, 0)]
+        [TestCase(true, 1, 1, 3, 5)]
+        [TestCase(true, 2, 1, 3, 4)]
+        [TestCase(false, 0, 0, 0, 0)]
+        [TestCase(false, 1, 1, 3, 3)]
+        [TestCase(false, 2, 1, 3, 5)]
+        public void TestThreeWitchPath(bool useWitch, int path, int riders, int score, int riderAfter)
+        {
+            GameManager.Instance.StartGame();
+
+            Rider rider = new Rider();
+            rider.Value = 4;
+            rider.Path = path;
+            GameManager.Instance.AddRider(rider);
+
+            if (useWitch)
+            {
+                /*
+                 | <--> | <--> | <--> |
+                 | D(4) | H(1) | E(1) |
+                 | <--> |      | <--> |
+                 | W(7) |      |      |
+                 */
+                GameManager.Instance.AddPath(new Path().Add(new WitchClearing()).Add(new DuckClearing(4))
+                    .Add(new WitchClearing()).Add(new WyrmClearing(7)));
+                GameManager.Instance.AddPath(new Path().Add(new WitchClearing()).Add(new HenClearing(1)));
+                GameManager.Instance.AddPath(new Path().Add(new WitchClearing())
+                    .Add(new ElfClearing(1)).Add(new WitchClearing()));
+            }
+            else
+            {
+                /*
+                 | D(4) | H(1) | E(1) |
+                 | W(7) |      |      |
+                 */
+                GameManager.Instance.AddPath(new Path().Add(new DuckClearing(4)).Add(new WyrmClearing(7)));
+                GameManager.Instance.AddPath(new Path().Add(new HenClearing(1)));
+                GameManager.Instance.AddPath(new Path().Add(new ElfClearing(1)));
+            }
+
+            GameManager.Instance.PlayGame();
+            Assert.AreEqual(riders, GameManager.Instance.GetRiderCount());
+
+            if (GameManager.Instance.GetRiderCount() > 0)
+            {
+                Assert.AreEqual(riderAfter, GameManager.Instance.GetRiders()[0].Value);
+            }
+
+            Assert.AreEqual(score, GameManager.Instance.GetScore());
         }
     }
 }

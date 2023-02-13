@@ -7,20 +7,21 @@ namespace TacosLibrary
             Tacos = 0,
             Veggie = 1,
         }
-        
+
         public int Value { get; set; }
         public bool HasValue { get; private set; }
 
         public FoodName Food;
         public bool Delivered = false;
         public int Path = 0;
-        
+        public int Witch = 0;
+
         public Rider(FoodName food)
         {
             HasValue = false;
             Food = food;
         }
-        
+
         public Rider()
         {
             HasValue = false;

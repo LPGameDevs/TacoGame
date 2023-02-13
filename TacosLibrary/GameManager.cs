@@ -40,6 +40,7 @@ namespace TacosLibrary
 
         public void StartGame()
         {
+            WitchManager.Instance.Restart();
             _game = new Game();
         }
 
@@ -116,12 +117,12 @@ namespace TacosLibrary
 
             return _game.GetRiders().Count;
         }
-        
+
         public Rider[] GetRiders()
         {
             return _game.GetRiders().ToArray();
         }
-        
+
 
         #endregion
 

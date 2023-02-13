@@ -73,24 +73,28 @@ namespace TacosLibrary
             }
         }
 
-        private void SendRider(Rider rider, Path path, bool skipToWitch = false)
+        private void SendRider(Rider rider, Path path)
         {
             // All paths must pass to score.
             bool failed = false;
 
-            bool skippedToWitch = false;
             foreach (var clearing in path.GetClearings())
             {
                 // Check if we need to skip to a witch.
-                if (skipToWitch && !skippedToWitch && clearing.Code() != "<-->")
+                if (rider.Witch > 0 && clearing.Code() != "<-->")
                 {
                     continue;
                 }
 
                 // We are now at a witch.
-                if (skipToWitch && !skippedToWitch)
+                if (rider.Witch > 0)
                 {
-                    skippedToWitch = true;
+                    WitchClearing witch = clearing as WitchClearing;
+
+                    if (witch.GetIndex() == rider.Witch)
+                    {
+                        rider.Witch = 0;
+                    }
                     continue;
                 }
 
@@ -115,12 +119,14 @@ namespace TacosLibrary
                     failed = true;
                     break;
                 }
+            }
 
-                if (_paths[rider.Path] != path)
-                {
-                    SendRider(rider, _paths[rider.Path], true);
-                    break;
-                }
+            if (rider.Witch > 0)
+            {
+                int currentPath = _paths.IndexOf(path);
+                int newPath = currentPath + 1 < _paths.Count ? currentPath + 1 : 0;
+                SendRider(rider, _paths[newPath]);
+                return;
             }
 
             if (failed)

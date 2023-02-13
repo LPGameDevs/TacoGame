@@ -38,6 +38,8 @@ namespace TacosGame
 
             path = new Path().Add(new ElfClearing(1)).Add(new WyrmClearing(3)).Add(new WitchClearing()).Add(new BansheeClearing(4)).Add(new WitchClearing());
             GameManager.Instance.AddPath(path);
+
+
         }
 
         private static void PlayGame()
