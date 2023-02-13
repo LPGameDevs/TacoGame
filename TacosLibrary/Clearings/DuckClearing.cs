@@ -1,17 +1,32 @@
 namespace TacosLibrary.Clearings
 {
-    public class DuckClearing : PassClearing
+    public class DuckClearing : IClearing
     {
-        public override string Code() => "D";
+        private int _duckValue;
 
-        public DuckClearing(int passValue) : base(passValue)
+        public string Code() => "D";
+
+        public DuckClearing(int duckValue)
         {
+            _duckValue = duckValue;
         }
 
-        public override void OnFail(Rider rider)
+        public bool CanPass(int diceRoll)
         {
-            // Kill the rider.
-            GameManager.Instance.RemoveRider(rider);
+            return true;
+        }
+
+        public void OnFail(Rider rider)
+        {
+            // Do nothing.
+        }
+
+        public void OnPass(Rider rider)
+        {
+            if (rider.Value > _duckValue)
+            {
+                rider.Delivered = true;
+            }
         }
     }
 }

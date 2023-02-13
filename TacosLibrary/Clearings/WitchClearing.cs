@@ -1,14 +1,24 @@
 namespace TacosLibrary.Clearings
 {
-    public class WitchClearing : PassClearing
+    public class WitchClearing : IClearing
     {
-        public override string Code() => "S";
+        public void OnPass(Rider rider)
+        {
+            throw new System.NotImplementedException();
+        }
 
-        public WitchClearing(int passValue) : base(passValue)
+        public string Code() => "S";
+
+        public WitchClearing(int passValue)
         {
         }
 
-        public override void OnFail(Rider rider)
+        public bool CanPass(int diceRoll)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void OnFail(Rider rider)
         {
             // Kill the rider.
             GameManager.Instance.RemoveRider(rider);

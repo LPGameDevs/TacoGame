@@ -27,16 +27,16 @@ namespace TacosGame
             // Add the first clearing
             Random random = new Random();
 
-            Path path = new Path().Add(new HenClearing(1)).Add(new BancheeClearing(1)).Add(new BancheeClearing(1));
+            Path path = new Path().Add(new HenClearing(1)).Add(new BansheeClearing(1)).Add(new BansheeClearing(1));
             GameManager.Instance.AddPath(path);
 
             path = new Path().Add(new HenClearing(1)).Add(new WitchClearing(1)).Add(new HenClearing(1));
             GameManager.Instance.AddPath(path);
             
-            path = new Path().Add(new DuckClearing(1)).Add(new HenClearing(1)).Add(new WyrmClearing(1)).Add(new WitchClearing(1)).Add(new BancheeClearing(1)).Add(new ElfClearing(1));
+            path = new Path().Add(new DuckClearing(1)).Add(new HenClearing(1)).Add(new WyrmClearing(1)).Add(new WitchClearing(1)).Add(new BansheeClearing(1)).Add(new ElfClearing(1));
             GameManager.Instance.AddPath(path);
             
-            path = new Path().Add(new ElfClearing(1)).Add(new WyrmClearing(1)).Add(new WitchClearing(1)).Add(new BancheeClearing(1)).Add(new WitchClearing(1));
+            path = new Path().Add(new ElfClearing(1)).Add(new WyrmClearing(1)).Add(new WitchClearing(1)).Add(new BansheeClearing(1)).Add(new WitchClearing(1));
             GameManager.Instance.AddPath(path);
         }
 

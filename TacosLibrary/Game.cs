@@ -72,7 +72,7 @@ namespace TacosLibrary
                 bool failed = false;
 
                 var path = _paths[rider.Path];
-                
+
                 foreach (var clearing in path.GetClearings())
                 {
                     if (clearing.CanPass(rider.Value) == false)
@@ -83,6 +83,12 @@ namespace TacosLibrary
                     }
 
                     clearing.OnPass(rider);
+
+                    // If we deliver early we just exit.
+                    if (rider.Delivered)
+                    {
+                        break;
+                    }
 
                     // If passing has exhausted rider value, they fail.
                     if (rider.Value < 1)

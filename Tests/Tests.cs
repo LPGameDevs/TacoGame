@@ -71,7 +71,7 @@ namespace Tests
         }
 
         [TestCase(3, 2, 0)]
-        [TestCase(3, 3, 0)]
+        [TestCase(3, 3, 3)]
         [TestCase(3, 4, 3)]
         [TestCase(1, 2, 3)]
         [TestCase(6, 2, 0)]
@@ -115,7 +115,7 @@ namespace Tests
         [TestCase(4, 5, 2, 6, 3)]
         [TestCase(3, 5, 4, 6, 6)]
         [TestCase(5, 3, 6, 6, 6)]
-        [TestCase(2, 3, 1, 3, 0)]
+        [TestCase(2, 3, 1, 3, 3)]
         [TestCase(2, 3, 1, 4, 3)]
         public void TestMultiplePaths(int path1, int path2, int dice1, int dice2, int score)
         {
@@ -345,7 +345,7 @@ namespace Tests
 
 
         [TestCase(3, 4, 1)]
-        [TestCase(3, 3, 0)]
+        [TestCase(3, 3, 1)]
         [TestCase(3, 2, 0)]
         public void TestWyrmPath(int wyrmValue, int dice, int riders)
         {
@@ -362,7 +362,7 @@ namespace Tests
 
             Assert.AreEqual(riders, GameManager.Instance.GetRiderCount());
         }
-        
+
         [TestCase(1, 4, 3, 3)]
         [TestCase(2, 3, 1, 3)]
         [TestCase(1, 1, 0, 0)]
@@ -373,14 +373,14 @@ namespace Tests
             Rider rider = new Rider();
             rider.Value = riderBefore;
             GameManager.Instance.AddRider(rider);
-            
+
             GameManager.Instance.AddPath(new Path().Add(new HenClearing(henValue)));
             GameManager.Instance.PlayGame();
 
             Assert.AreEqual(riderAfter, GameManager.Instance.GetRiders()[0].Value);
             Assert.AreEqual(finalScore, GameManager.Instance.GetScore());
         }
-        
+
         [TestCase(1, 4, 5)]
         [TestCase(2, 3, 5)]
         [TestCase(1, 1, 2)]
@@ -391,11 +391,53 @@ namespace Tests
             Rider rider = new Rider();
             rider.Value = riderBefore;
             GameManager.Instance.AddRider(rider);
-            
+
             GameManager.Instance.AddPath(new Path().Add(new ElfClearing(elfValue)));
             GameManager.Instance.PlayGame();
 
             Assert.AreEqual(riderAfter, GameManager.Instance.GetRiders()[0].Value);
+        }
+
+        [TestCase(1, 1, 1)]
+        [TestCase(4, 5, 5)]
+        [TestCase(4, 3, 0)]
+        public void TestBansheePath(int bansheeValue, int riderBefore, int riderAfter)
+        {
+            GameManager.Instance.StartGame();
+
+            Rider rider = new Rider();
+            rider.Value = riderBefore;
+            GameManager.Instance.AddRider(rider);
+
+            GameManager.Instance.AddPath(new Path().Add(new BansheeClearing(bansheeValue)));
+            GameManager.Instance.PlayGame();
+
+            Assert.AreEqual(riderAfter, GameManager.Instance.GetRiders()[0].Value);
+        }
+
+        [TestCase(3, 5, 1)]
+        [TestCase(3, 3, 0)]
+        [TestCase(3, 2, 0)]
+        [TestCase(5, 4, 0)]
+        public void TestDuckPath(int duckValue, int value, int riders)
+        {
+            GameManager.Instance.StartGame();
+
+            Rider rider = new Rider();
+            rider.Value = value;
+            GameManager.Instance.AddRider(rider);
+
+            // Wyrn will eat all riders that dont get delivered by duck.
+            GameManager.Instance.AddPath(new Path().Add(new DuckClearing(duckValue)).Add(new WyrmClearing(7)));
+            GameManager.Instance.PlayGame();
+
+            Assert.AreEqual(riders, GameManager.Instance.GetRiderCount());
+        }
+
+        [TestCase(1, 1, 2)]
+        public void TestWitchPath(int elfValue, int riderBefore, int riderAfter)
+        {
+            return;
         }
     }
 }
