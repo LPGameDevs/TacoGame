@@ -32,10 +32,10 @@ Unit tests to check the functionality of the game.
 
 ### MVP
 
- - [ ] Roll Dice.
- - [ ] Assign Rider/Die to Restaurant/Path
- - [ ] Build paths
+ - [x] Roll Dice.
+ - [x] Assign Rider/Die to Restaurant/Path
+ - [x] Build paths
  - [ ] Alter paths
  - [ ] Add modifiers
- - [ ] Summarise paths
- - [ ] Track points
+ - [x] Summarise paths
+ - [x] Track points

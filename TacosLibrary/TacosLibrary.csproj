@@ -60,7 +60,6 @@
         <Compile Include="Phases\RoundAndRound.cs" />
         <Compile Include="Phases\ShowMap.cs" />
         <Compile Include="Player.cs" />
-        <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="Rider.cs" />
         <Compile Include="WitchManager.cs" />
     </ItemGroup>
